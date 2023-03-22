@@ -4,7 +4,8 @@ from sqlalchemy import (
     Column,
     Integer,
     String,
-    DateTime
+    DateTime,
+    ForeignKey, Text
 )
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -27,6 +28,15 @@ class User(Base):
         id = Column(Integer, primary_key=True)
         name = Column(String(50), unique=True, nullable=False)
         creation_date = Column(DateTime, default=datetime.now)
+
+    class Articles(Base):
+        __tablename__ = "articles"
+
+        id = Column(Integer, primary_key=True)
+        title = Column(String(70), nullable=False, unique=True)
+        content = Column(Text, nullable=False)
+        creation_date = Column(DateTime, default=datetime.now)
+        author_id = Column(Integer, ForeignKey("users.id"))
 
     def __repr__(self):
         return f"User({self.nickname})"
