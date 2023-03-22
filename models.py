@@ -8,6 +8,7 @@ from sqlalchemy import (
     ForeignKey, Text
 )
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
@@ -21,6 +22,8 @@ class Author(Base):
     nickname = Column(String(50), unique=True, nullable=False)
     email = Column(String(50), unique=True, nullable=False)
     registration_date = Column(DateTime, default=datetime.now)
+
+    articles = relationship("Articles", back_populates="author")
 
     def __repr__(self):
         return f"Author({self.nickname})"
@@ -43,6 +46,8 @@ class Author(Base):
         content = Column(Text, nullable=False)
         creation_date = Column(DateTime, default=datetime.now)
         author_id = Column(Integer, ForeignKey("authors.id"))
+
+        author = relationship("Author", back_populates="articles")
 
     def __repr__(self):
         return f"Articles({self.nickname})"
