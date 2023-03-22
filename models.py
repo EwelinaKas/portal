@@ -1,14 +1,14 @@
 from datetime import datetime
 
 from sqlalchemy import (
-    create_engine, Column, Integer, String, DateTime
+    Column,
+    Integer,
+    String,
+    DateTime
 )
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine(
-    "mysql+pymysql://root:Ewelina1998.@127.0.0.1:3306/portal"
-)
-Base = declarative_base(bind=engine)
+Base = declarative_base()
 
 
 class User(Base):
@@ -20,6 +20,13 @@ class User(Base):
     nickname = Column(String(50), unique=True, nullable=False)
     email = Column(String(50), unique=True, nullable=False)
     registration_date = Column(DateTime, default=datetime.now)
+
+    class Hashtag(Base):
+        __tablename__ = "hashtags"
+
+        id = Column(Integer, primary_key=True)
+        name = Column(String(50), unique=True, nullable=False)
+        creation_date = Column(DateTime, default=datetime.now)
 
     def __repr__(self):
         return f"User({self.nickname})"
